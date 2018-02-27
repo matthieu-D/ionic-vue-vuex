@@ -1,62 +1,30 @@
-import Vue from 'vue';
-import VanillaJsService from './vanilla-js-service';
-import ComponentOne from './component-one';
-import ComponentTwo from './component-two';
+import Vue from "vue";
+import Vuex from "vuex";
+Vue.use(Vuex);
 
-import CounterService from './counter-service';
-
-const sharedCounter = new CounterService();
-
-const FirstComponent = {
-  template : `<div>
-    <button @click="show">
-      Show
-    </button>
-    <button @click="add">
-      Add
-    </button>
-  </div>`,
-  methods: {
-    show: function () {
-      sharedCounter.show();
+const store = new Vuex.Store({
+  state: {
+    count: 0
+  },
+  mutations: {
+    increment(state, payload) {
+      state.count += payload;
     },
-    add: function() {
-      sharedCounter.add();
+    decrement(state, payload) {
+      state.count -= payload;
     }
   }
-}
-
-const SecondComponent = {
-  template : `<div>
-    <button @click="show">
-      Show
-    </button>
-    <button @click="add">
-      Add
-    </button>
-  </div>`,
-  methods: {
-    show: function () {
-      sharedCounter.show();
-    },
-    add: function() {
-      sharedCounter.add();
-    }
-  }
-}
+});
 
 var app = new Vue({
-  el: '#app',
-  components: {ComponentOne, ComponentTwo},
-  // components: {FirstComponent, SecondComponent},
-  data: function() {
-    return{
-      vanillaJsService: new VanillaJsService()
-    }
-  },
+  el: "#app",
+  store,
   methods: {
-    useVanillaJsService: function() {
-      this.vanillaJsService.sayHello();
+    incrementCounter: function() {
+      this.$store.commit("increment", 1);
+    },
+    decrementCounter: function() {
+      this.$store.commit("decrement", 1);
     }
   }
-})
+});
