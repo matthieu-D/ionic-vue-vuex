@@ -6,6 +6,7 @@ const store = new Vuex.Store({
   state: {
     count: 0
   },
+  strict: true,
   mutations: {
     increment(state, payload) {
       state.count += payload;
